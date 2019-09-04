@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com_xzyh_crm.dao.MenuRoleRefMapper" >
+  <resultMap id="BaseResultMap" type="com_xzyh_crm.pojo.MenuRoleRef" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sys_role_id" property="sysRoleId" jdbcType="BIGINT" />
+    <result column="subject_id" property="subjectId" jdbcType="BIGINT" />
+    <result column="subject_type" property="subjectType" jdbcType="INTEGER" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sys_role_id, subject_id, subject_type,type_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from menu_role_ref
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from menu_role_ref
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com_xzyh_crm.pojo.MenuRoleRef" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into menu_role_ref (sys_role_id, subject_id, subject_type,type_id
+      )
+    values (#{sysRoleId,jdbcType=BIGINT}, #{subjectId,jdbcType=BIGINT}, #{subjectType,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com_xzyh_crm.pojo.MenuRoleRef" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into menu_role_ref
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sysRoleId != null" >
+        sys_role_id,
+      </if>
+      <if test="subjectId != null" >
+        subject_id,
+      </if>
+      <if test="subjectType != null" >
+        subject_type,
+      </if>
+      <if test="typeId != null" >
+        type_id
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sysRoleId != null" >
+        #{sysRoleId,jdbcType=BIGINT},
+      </if>
+      <if test="subjectId != null" >
+        #{subjectId,jdbcType=BIGINT},
+      </if>
+      <if test="subjectType != null" >
+        #{subjectType,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com_xzyh_crm.pojo.MenuRoleRef" >
+    update menu_role_ref
+    <set >
+      <if test="sysRoleId != null" >
+        sys_role_id = #{sysRoleId,jdbcType=BIGINT},
+      </if>
+      <if test="subjectId != null" >
+        subject_id = #{subjectId,jdbcType=BIGINT},
+      </if>
+      <if test="subjectType != null" >
+        subject_type = #{subjectType,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com_xzyh_crm.pojo.MenuRoleRef" >
+    update menu_role_ref
+    set sys_role_id = #{sysRoleId,jdbcType=BIGINT},
+      subject_id = #{subjectId,jdbcType=BIGINT},
+      subject_type = #{subjectType,jdbcType=INTEGER},type_id=#{typeId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!--菜单删除的时候看一下，是否有依赖-->
+  <select id="selectByMenuId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from menu_role_ref
+    where subject_id = #{id,jdbcType=BIGINT}
+    and subject_type=1
+  </select>
+  <!--按钮删除的时候看一下，是否有依赖-->
+  <select id="selectByButnId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from menu_role_ref
+    where subject_id = #{id,jdbcType=BIGINT}
+    and subject_type=2
+  </select>
+
+  <insert id="batchSaveUser">
+        insert into menu_role_ref (sys_role_id, subject_id, subject_type,type_id
+    ) values
+            <!-- 动态SQL之foreach的用法 -->
+    <!-- collection="users" 用于指定循环集合的名称，如果接口中并未指定参数别名，那么默认就是list
+     item="u" 用于指定每次循环后的对象的别名
+     separator="," 用于指定每次循环后之间的分割符-->
+    <foreach collection="users" item="u" separator=",">
+        (#{u.},#{u.sex})
+    </foreach>
+  </insert>
+  <delete id="deleteByBtnID" parameterType="com_xzyh_crm.pojo.MenuRoleRef">
+    delete from menu_role_ref
+    where sys_role_id = #{sysRoleId,jdbcType=BIGINT} and subject_type=#{subjectType,jdbcType=BIGINT}
+    and type_id=#{typeId,jdbcType=INTEGER}
+  </delete>
+ <!-- 当传入的菜单为空的时候，将全部清空-->
+  <delete id="deleteByRoleID" parameterType="java.util.Map">
+    delete from menu_role_ref
+    where sys_role_id = #{param.roleId,jdbcType=BIGINT} and type_id =#{param.type,jdbcType=INTEGER}
+
+  </delete>
+  <!--删除之前的查询-->
+  <select id="selectByRoleTypeID" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from menu_role_ref
+    where sys_role_id = #{param.roleId,jdbcType=BIGINT}
+    and type_id=#{param.type,jdbcType=INTEGER}
+  </select>
+
+</mapper>

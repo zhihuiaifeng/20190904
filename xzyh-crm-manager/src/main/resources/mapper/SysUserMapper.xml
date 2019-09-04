@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com_xzyh_crm.dao.SysUserMapper" >
+  <resultMap id="BaseResultMap" type="com_xzyh_crm.pojo.SysUser" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="check_code" property="checkCode" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="pid" property="pid" jdbcType="BIGINT" />
+    <result column="pids" property="pids" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="is_first_login" property="isFirstLogin" jdbcType="INTEGER" />
+    <result column="is_active" property="isActive" jdbcType="INTEGER" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="contact_name" property="contactName" jdbcType="VARCHAR" />
+    <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="otp_over_time" property="otpOverTime" jdbcType="TIMESTAMP" />
+    <result column="expire_time" property="expireTime" jdbcType="INTEGER" />
+    <result column="user_icn" property="userIcn" jdbcType="VARCHAR" />
+    <result column="is_shop" property="isShop" jdbcType="INTEGER" />
+    <result column="gw_url" property="gwUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, account, password, user_name, age, address, phone, check_code, salt, type, status, 
+    create_time, update_time, pid, pids, remark, is_first_login, is_active, province, 
+    city, area, contact_name, contact_phone, start_time, end_time, otp_over_time, expire_time, 
+    user_icn, is_shop, gw_url
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <!-- 查询用户-->
+  <select id="findUserByParam" parameterType="com_xzyh_crm.pojo.SysUser" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_user
+    where account = #{account}
+  </select>
+
+  <!-- 查询手机号是否重复 -->
+  <select id="findPhoneIsExist" parameterType="com_xzyh_crm.pojo.SysUser" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_user
+    where phone = #{phone}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sys_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com_xzyh_crm.pojo.SysUser" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_user (account, password, user_name, 
+      age, address, phone, 
+      check_code, salt, type, 
+      status, create_time, update_time, 
+      pid, pids, remark, is_first_login, 
+      is_active, province, city, 
+      area, contact_name, contact_phone, 
+      start_time, end_time, otp_over_time, 
+      expire_time, user_icn, is_shop, 
+      gw_url)
+    values (#{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{age,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{checkCode,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{pid,jdbcType=BIGINT}, #{pids,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{isFirstLogin,jdbcType=INTEGER}, 
+      #{isActive,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{area,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{contactPhone,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{otpOverTime,jdbcType=TIMESTAMP}, 
+      #{expireTime,jdbcType=INTEGER}, #{userIcn,jdbcType=VARCHAR}, #{isShop,jdbcType=INTEGER}, 
+      #{gwUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com_xzyh_crm.pojo.SysUser" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="checkCode != null" >
+        check_code,
+      </if>
+      <if test="salt != null" >
+        salt,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="pids != null" >
+        pids,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="isFirstLogin != null" >
+        is_first_login,
+      </if>
+      <if test="isActive != null" >
+        is_active,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="contactName != null" >
+        contact_name,
+      </if>
+      <if test="contactPhone != null" >
+        contact_phone,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="otpOverTime != null" >
+        otp_over_time,
+      </if>
+      <if test="expireTime != null" >
+        expire_time,
+      </if>
+      <if test="userIcn != null" >
+        user_icn,
+      </if>
+      <if test="isShop != null" >
+        is_shop,
+      </if>
+      <if test="gwUrl != null" >
+        gw_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="checkCode != null" >
+        #{checkCode,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="pids != null" >
+        #{pids,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isFirstLogin != null" >
+        #{isFirstLogin,jdbcType=INTEGER},
+      </if>
+      <if test="isActive != null" >
+        #{isActive,jdbcType=INTEGER},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null" >
+        #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="otpOverTime != null" >
+        #{otpOverTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireTime != null" >
+        #{expireTime,jdbcType=INTEGER},
+      </if>
+      <if test="userIcn != null" >
+        #{userIcn,jdbcType=VARCHAR},
+      </if>
+      <if test="isShop != null" >
+        #{isShop,jdbcType=INTEGER},
+      </if>
+      <if test="gwUrl != null" >
+        #{gwUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com_xzyh_crm.pojo.SysUser" >
+    update sys_user
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="checkCode != null" >
+        check_code = #{checkCode,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="pids != null" >
+        pids = #{pids,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isFirstLogin != null" >
+        is_first_login = #{isFirstLogin,jdbcType=INTEGER},
+      </if>
+      <if test="isActive != null" >
+        is_active = #{isActive,jdbcType=INTEGER},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        contact_name = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null" >
+        contact_phone = #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="otpOverTime != null" >
+        otp_over_time = #{otpOverTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireTime != null" >
+        expire_time = #{expireTime,jdbcType=INTEGER},
+      </if>
+      <if test="userIcn != null" >
+        user_icn = #{userIcn,jdbcType=VARCHAR},
+      </if>
+      <if test="isShop != null" >
+        is_shop = #{isShop,jdbcType=INTEGER},
+      </if>
+      <if test="gwUrl != null" >
+        gw_url = #{gwUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com_xzyh_crm.pojo.SysUser" >
+    update sys_user
+    set account = #{account,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      check_code = #{checkCode,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      pid = #{pid,jdbcType=BIGINT},
+      pids = #{pids,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      is_first_login = #{isFirstLogin,jdbcType=INTEGER},
+      is_active = #{isActive,jdbcType=INTEGER},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      contact_name = #{contactName,jdbcType=VARCHAR},
+      contact_phone = #{contactPhone,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      otp_over_time = #{otpOverTime,jdbcType=TIMESTAMP},
+      expire_time = #{expireTime,jdbcType=INTEGER},
+      user_icn = #{userIcn,jdbcType=VARCHAR},
+      is_shop = #{isShop,jdbcType=INTEGER},
+      gw_url = #{gwUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

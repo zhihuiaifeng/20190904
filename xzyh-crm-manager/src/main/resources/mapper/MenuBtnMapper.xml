@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com_xzyh_crm.dao.MenuBtnMapper" >
+  <resultMap id="BaseResultMap" type="com_xzyh_crm.pojo.MenuBtn" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="btn_name" property="btnName" jdbcType="VARCHAR" />
+    <result column="btn_class" property="btnClass" jdbcType="VARCHAR" />
+    <result column="btn_icon" property="btnIcon" jdbcType="VARCHAR" />
+    <result column="menu_id" property="menuId" jdbcType="BIGINT" />
+    <result column="menu_status" property="menuStatus" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, btn_name, btn_class, btn_icon, menu_id, menu_status, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from menu_btn
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from menu_btn
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com_xzyh_crm.pojo.MenuBtn" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into menu_btn (btn_name, btn_class, btn_icon, 
+      menu_id, menu_status, create_time
+      )
+    values (#{btnName,jdbcType=VARCHAR}, #{btnClass,jdbcType=VARCHAR}, #{btnIcon,jdbcType=VARCHAR}, 
+      #{menuId,jdbcType=BIGINT}, #{menuStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com_xzyh_crm.pojo.MenuBtn" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into menu_btn
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="btnName != null" >
+        btn_name,
+      </if>
+      <if test="btnClass != null" >
+        btn_class,
+      </if>
+      <if test="btnIcon != null" >
+        btn_icon,
+      </if>
+      <if test="menuId != null" >
+        menu_id,
+      </if>
+      <if test="menuStatus != null" >
+        menu_status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="btnName != null" >
+        #{btnName,jdbcType=VARCHAR},
+      </if>
+      <if test="btnClass != null" >
+        #{btnClass,jdbcType=VARCHAR},
+      </if>
+      <if test="btnIcon != null" >
+        #{btnIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null" >
+        #{menuId,jdbcType=BIGINT},
+      </if>
+      <if test="menuStatus != null" >
+        #{menuStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com_xzyh_crm.pojo.MenuBtn" >
+    update menu_btn
+    <set >
+      <if test="btnName != null" >
+        btn_name = #{btnName,jdbcType=VARCHAR},
+      </if>
+      <if test="btnClass != null" >
+        btn_class = #{btnClass,jdbcType=VARCHAR},
+      </if>
+      <if test="btnIcon != null" >
+        btn_icon = #{btnIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null" >
+        menu_id = #{menuId,jdbcType=BIGINT},
+      </if>
+      <if test="menuStatus != null" >
+        menu_status = #{menuStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com_xzyh_crm.pojo.MenuBtn" >
+    update menu_btn
+    set btn_name = #{btnName,jdbcType=VARCHAR},
+      btn_class = #{btnClass,jdbcType=VARCHAR},
+      btn_icon = #{btnIcon,jdbcType=VARCHAR},
+      menu_id = #{menuId,jdbcType=BIGINT},
+      menu_status = #{menuStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!--通过菜单的id进行查询按钮-->
+  <select id="selectByMenuId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from menu_btn
+    where menu_id = #{id,jdbcType=BIGINT}
+  </select>
+  <!--  这个是添加角色时，判断角色的name是否存在-->
+  <select id="findByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from menu_btn
+    where btn_name = #{name,jdbcType=VARCHAR}
+  </select>
+  <!--  这个是添加角色时，判断角色的name是否存在-->
+  <select id="findByPerms" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from menu_btn
+    where btn_class = #{name,jdbcType=VARCHAR}
+  </select>
+  <!--  获取全部的信息用来做分页使用的-->
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="com_xzyh_crm.pojo.MenuBtn" >
+    select
+    <include refid="Base_Column_List" />
+    from menu_btn
+    where menu_status = 1
+    order by create_time desc
+  </select>
+
+  <!--通过用户角色id获取，它拥有的按钮-->
+  <select id="findRoleBtn" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select m.* from menu_btn m, menu_role_ref rm
+    where rm.sys_role_id = #{param.roleId,jdbcType=BIGINT} and
+		rm.subject_type= 2 and rm.type_id= #{param.type,jdbcType=INTEGER}
+    and m.id = rm.subject_id
+  </select>
+</mapper>

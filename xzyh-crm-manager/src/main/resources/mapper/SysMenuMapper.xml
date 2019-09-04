@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com_xzyh_crm.dao.SysMenuMapper" >
+  <resultMap id="BaseResultMap" type="com_xzyh_crm.pojo.SysMenu" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="model_id" property="modelId" jdbcType="BIGINT" />
+    <result column="pid" property="pid" jdbcType="BIGINT" />
+    <result column="pids" property="pids" jdbcType="VARCHAR" />
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="menu_icon" property="menuIcon" jdbcType="VARCHAR" />
+    <result column="menu_status" property="menuStatus" jdbcType="INTEGER" />
+    <result column="is_leaf" property="isLeaf" jdbcType="INTEGER" />
+    <result column="menu_sort" property="menuSort" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="operator_id" property="operatorId" jdbcType="BIGINT" />
+<!--    <collection property="menuBtnList" ofType="com_xzyh_crm.pojo.MenuBtn" >-->
+<!--      <id property="id" column="id-1"/>-->
+<!--      <result property="menu_name" column="btn_name"/>-->
+<!--    </collection>-->
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, model_id, pid, pids, menu_name, menu_url, menu_icon, menu_status, is_leaf, menu_sort, 
+    create_time, operator_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_menu
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sys_menu
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com_xzyh_crm.pojo.SysMenu" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_menu (model_id, pid, pids, 
+      menu_name, menu_url, menu_icon, 
+      menu_status, is_leaf, menu_sort, 
+      create_time, operator_id)
+    values (#{modelId,jdbcType=BIGINT}, #{pid,jdbcType=BIGINT}, #{pids,jdbcType=VARCHAR}, 
+      #{menuName,jdbcType=VARCHAR}, #{menuUrl,jdbcType=VARCHAR}, #{menuIcon,jdbcType=VARCHAR}, 
+      #{menuStatus,jdbcType=INTEGER}, #{isLeaf,jdbcType=INTEGER}, #{menuSort,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{operatorId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com_xzyh_crm.vo.SysMenuVo" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="modelId != null" >
+        model_id,
+      </if>
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="pids != null" >
+        pids,
+      </if>
+      <if test="menuName != null" >
+        menu_name,
+      </if>
+      <if test="menuUrl != null" >
+        menu_url,
+      </if>
+      <if test="menuIcon != null" >
+        menu_icon,
+      </if>
+      <if test="menuStatus != null" >
+        menu_status,
+      </if>
+      <if test="isLeaf != null" >
+        is_leaf,
+      </if>
+      <if test="menuSort != null" >
+        menu_sort,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="operatorId != null" >
+        operator_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="modelId != null" >
+        #{modelId,jdbcType=BIGINT},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="pids != null" >
+        #{pids,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuIcon != null" >
+        #{menuIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="menuStatus != null" >
+        #{menuStatus,jdbcType=INTEGER},
+      </if>
+      <if test="isLeaf != null" >
+        #{isLeaf,jdbcType=INTEGER},
+      </if>
+      <if test="menuSort != null" >
+        #{menuSort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com_xzyh_crm.pojo.SysMenu" >
+    update sys_menu
+    <set >
+      <if test="modelId != null" >
+        model_id = #{modelId,jdbcType=BIGINT},
+      </if>
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="pids != null" >
+        pids = #{pids,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null" >
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        menu_url = #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuIcon != null" >
+        menu_icon = #{menuIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="menuStatus != null" >
+        menu_status = #{menuStatus,jdbcType=INTEGER},
+      </if>
+      <if test="isLeaf != null" >
+        is_leaf = #{isLeaf,jdbcType=INTEGER},
+      </if>
+      <if test="menuSort != null" >
+        menu_sort = #{menuSort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatorId != null" >
+        operator_id = #{operatorId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com_xzyh_crm.pojo.SysMenu" >
+    update sys_menu
+    set model_id = #{modelId,jdbcType=BIGINT},
+      pid = #{pid,jdbcType=BIGINT},
+      pids = #{pids,jdbcType=VARCHAR},
+      menu_name = #{menuName,jdbcType=VARCHAR},
+      menu_url = #{menuUrl,jdbcType=VARCHAR},
+      menu_icon = #{menuIcon,jdbcType=VARCHAR},
+      menu_status = #{menuStatus,jdbcType=INTEGER},
+      is_leaf = #{isLeaf,jdbcType=INTEGER},
+      menu_sort = #{menuSort,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      operator_id = #{operatorId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!--这个的查询当前级别下的名字是否存在-->
+  <select id="selectByLevelName" resultMap="BaseResultMap" parameterType="com_xzyh_crm.pojo.SysMenu" >
+    select
+    <include refid="Base_Column_List" />
+    from sys_menu
+    where pid = #{pid,jdbcType=BIGINT} and menu_name=#{menuName,jdbcType=VARCHAR}
+  </select>
+<!--通过pid的值去数据库进行查询一下，作为它的id去查询-->
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from sys_menu
+    where id = #{pid,jdbcType=BIGINT}
+  </select>
+  <!--这个是自动生成sort来使用的，通过pid的值去数据库进行查询一下，-->
+  <select id="selectByPid" resultType="java.lang.Integer" parameterType="java.lang.Long" >
+    select max(menu_sort) from sys_menu where pid=#{pid,jdbcType=BIGINT}
+  </select>
+  <!--获取全部的目录信息-->
+  <select id="findAll"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_menu  order by pid, menu_sort
+  </select>
+<!--  <select id="findAll"  resultMap="BaseResultMap">-->
+<!--    select-->
+<!--    <include refid="Base_Column_List" />-->
+<!--    from sys_menu ,menu_btn where sys_menu.id=menu_btn.menu_id-->
+<!--  </select>-->
+  <!--通过用户名获取全部的权限消息，多表查询-->
+  <select id="findByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select m.* from sys_menu m, sys_user u, sys_user_role ur, sys_role_menu rm
+  	where u.name = #{userName,jdbcType=BIGINT} and u.id = ur.user_id
+  	and ur.role_id = rm.role_id and rm.menu_id = m.id
+  </select>
+  <!--这个在修改的时候使用的，是否选中的父级为自己的子集-->
+  <select id="selectEdit" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from sys_menu
+    where pid = #{id,jdbcType=BIGINT}
+  </select>
+  <!--通过用户角色id获取，它拥有的-->
+  <select id="findRoleMenus" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select m.* from sys_menu m, menu_role_ref rm
+    where rm.sys_role_id= #{param.roleId,jdbcType=BIGINT} and
+    rm.subject_type= 1 and rm.type_id= #{param.type,jdbcType=INTEGER}
+    and m.id = rm.subject_id
+  </select>
+</mapper>

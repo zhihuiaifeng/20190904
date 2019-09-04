@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com_xzyh_crm.dao.DepartmentManagerMapper" >
+  <resultMap id="BaseResultMap" type="com_xzyh_crm.pojo.DepartmentManager" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
+    <result column="department_desc" property="departmentDesc" jdbcType="VARCHAR" />
+    <result column="department_sort" property="departmentSort" jdbcType="INTEGER" />
+    <result column="pid" property="pid" jdbcType="BIGINT" />
+    <result column="pids" property="pids" jdbcType="VARCHAR" />
+    <result column="is_share" property="isShare" jdbcType="INTEGER" />
+    <result column="is_login" property="isLogin" jdbcType="INTEGER" />
+    <result column="department_status" property="departmentStatus" jdbcType="INTEGER" />
+    <result column="is_leaf" property="isLeaf" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="operator_id" property="operatorId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, department_name, department_desc, department_sort, pid, pids, is_share, is_login, 
+    department_status, is_leaf, create_time, update_time, operator_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from department_manager
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from department_manager
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com_xzyh_crm.pojo.DepartmentManager" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into department_manager (department_name, department_desc, department_sort, 
+      pid, pids, is_share, 
+      is_login, department_status, is_leaf, 
+      create_time, update_time, operator_id
+      )
+    values (#{departmentName,jdbcType=VARCHAR}, #{departmentDesc,jdbcType=VARCHAR}, #{departmentSort,jdbcType=INTEGER}, 
+      #{pid,jdbcType=BIGINT}, #{pids,jdbcType=VARCHAR}, #{isShare,jdbcType=INTEGER}, 
+      #{isLogin,jdbcType=INTEGER}, #{departmentStatus,jdbcType=INTEGER}, #{isLeaf,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{operatorId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com_xzyh_crm.pojo.DepartmentManager" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into department_manager
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="departmentName != null" >
+        department_name,
+      </if>
+      <if test="departmentDesc != null" >
+        department_desc,
+      </if>
+      <if test="departmentSort != null" >
+        department_sort,
+      </if>
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="pids != null" >
+        pids,
+      </if>
+      <if test="isShare != null" >
+        is_share,
+      </if>
+      <if test="isLogin != null" >
+        is_login,
+      </if>
+      <if test="departmentStatus != null" >
+        department_status,
+      </if>
+      <if test="isLeaf != null" >
+        is_leaf,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="operatorId != null" >
+        operator_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="departmentName != null" >
+        #{departmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentDesc != null" >
+        #{departmentDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentSort != null" >
+        #{departmentSort,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="pids != null" >
+        #{pids,jdbcType=VARCHAR},
+      </if>
+      <if test="isShare != null" >
+        #{isShare,jdbcType=INTEGER},
+      </if>
+      <if test="isLogin != null" >
+        #{isLogin,jdbcType=INTEGER},
+      </if>
+      <if test="departmentStatus != null" >
+        #{departmentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="isLeaf != null" >
+        #{isLeaf,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com_xzyh_crm.pojo.DepartmentManager" >
+    update department_manager
+    <set >
+      <if test="departmentName != null" >
+        department_name = #{departmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentDesc != null" >
+        department_desc = #{departmentDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentSort != null" >
+        department_sort = #{departmentSort,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="pids != null" >
+        pids = #{pids,jdbcType=VARCHAR},
+      </if>
+      <if test="isShare != null" >
+        is_share = #{isShare,jdbcType=INTEGER},
+      </if>
+      <if test="isLogin != null" >
+        is_login = #{isLogin,jdbcType=INTEGER},
+      </if>
+      <if test="departmentStatus != null" >
+        department_status = #{departmentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="isLeaf != null" >
+        is_leaf = #{isLeaf,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatorId != null" >
+        operator_id = #{operatorId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com_xzyh_crm.pojo.DepartmentManager" >
+    update department_manager
+    set department_name = #{departmentName,jdbcType=VARCHAR},
+      department_desc = #{departmentDesc,jdbcType=VARCHAR},
+      department_sort = #{departmentSort,jdbcType=INTEGER},
+      pid = #{pid,jdbcType=BIGINT},
+      pids = #{pids,jdbcType=VARCHAR},
+      is_share = #{isShare,jdbcType=INTEGER},
+      is_login = #{isLogin,jdbcType=INTEGER},
+      department_status = #{departmentStatus,jdbcType=INTEGER},
+      is_leaf = #{isLeaf,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      operator_id = #{operatorId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com_xzyh_crm.dao.DepartmentRoleMapper" >
+  <resultMap id="BaseResultMap" type="com_xzyh_crm.pojo.DepartmentRole" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="department_id" property="departmentId" jdbcType="BIGINT" />
+    <result column="role_id" property="roleId" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, department_id, role_id, type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from department_role
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from department_role
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com_xzyh_crm.pojo.DepartmentRole" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into department_role (department_id, role_id, type
+      )
+    values (#{departmentId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, #{type,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com_xzyh_crm.pojo.DepartmentRole" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into department_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="departmentId != null" >
+        department_id,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="departmentId != null" >
+        #{departmentId,jdbcType=BIGINT},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com_xzyh_crm.pojo.DepartmentRole" >
+    update department_role
+    <set >
+      <if test="departmentId != null" >
+        department_id = #{departmentId,jdbcType=BIGINT},
+      </if>
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com_xzyh_crm.pojo.DepartmentRole" >
+    update department_role
+    set department_id = #{departmentId,jdbcType=BIGINT},
+      role_id = #{roleId,jdbcType=BIGINT},
+      type = #{type,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!--通过角色id查询中间表是否有关联-->
+  <select id="selectByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from department_role
+    where role_id = #{id,jdbcType=BIGINT}
+  </select>
+</mapper>

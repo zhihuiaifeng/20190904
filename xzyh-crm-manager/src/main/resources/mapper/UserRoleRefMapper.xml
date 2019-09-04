@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com_xzyh_crm.dao.UserRoleRefMapper" >
+  <resultMap id="BaseResultMap" type="com_xzyh_crm.pojo.UserRoleRef" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sys_user_id" property="sysUserId" jdbcType="BIGINT" />
+    <result column="sys_role_id" property="sysRoleId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sys_user_id, sys_role_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_role_ref
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_role_ref
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com_xzyh_crm.pojo.UserRoleRef" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user_role_ref (sys_user_id, sys_role_id)
+    values (#{sysUserId,jdbcType=BIGINT}, #{sysRoleId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com_xzyh_crm.pojo.UserRoleRef" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user_role_ref
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sysUserId != null" >
+        sys_user_id,
+      </if>
+      <if test="sysRoleId != null" >
+        sys_role_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sysUserId != null" >
+        #{sysUserId,jdbcType=BIGINT},
+      </if>
+      <if test="sysRoleId != null" >
+        #{sysRoleId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com_xzyh_crm.pojo.UserRoleRef" >
+    update user_role_ref
+    <set >
+      <if test="sysUserId != null" >
+        sys_user_id = #{sysUserId,jdbcType=BIGINT},
+      </if>
+      <if test="sysRoleId != null" >
+        sys_role_id = #{sysRoleId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com_xzyh_crm.pojo.UserRoleRef" >
+    update user_role_ref
+    set sys_user_id = #{sysUserId,jdbcType=BIGINT},
+      sys_role_id = #{sysRoleId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
